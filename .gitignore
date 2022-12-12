@@ -29,4 +29,8 @@
 # Executables
 *.exe
 *.out
-*.app
+# Macos
+.DS_Store
+game.dSYM
+librits.dylib
+librits.dylib.dSYM
