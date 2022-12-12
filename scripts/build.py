@@ -36,7 +36,7 @@ if platform.system() == "Darwin":
         "-g",
         "./Sandbox/src/SandboxApp.cpp",
         "-o",
-        "./bin/Release/game.app/Contents/MacOS/game",
+        "./bin/Release/game.app/Contents/MacOS/game.out",
         "-L./bin/Release/game.app/Contents/Resources/",
         "-I./Sandbox/src",
         "-I./Rits/src",
