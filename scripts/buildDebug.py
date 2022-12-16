@@ -45,26 +45,31 @@ if platform.system() == "Linux":
     subprocess.run([
         "g++",
         "-std=c++17",
-        "-dynamiclib",
+        "-shared",
         "-g",
-        "./Rits/base.cpp",
+        "./Rits/src/Rits/Application.cpp",
+        "./Rits/src/Rits/Log.cpp",
         "-o",
-        "./bin/librits.dylib",
+        "./bin/Debug/librits.so",
+        "-I./Rits/vendor/spdlog/include",
         "-lglfw",
-        "-lvulkan"
+        "-lvulkan",
+        "-fPIC",
         ])
         #Game
     subprocess.run([
         "g++",
         "-std=c++17",
         "-g",
-        "./Game/main.cpp",
+        "./Sandbox/src/SandboxApp.cpp",
         "-o",
-        "./bin/game",
-        "-L./bin",
-        "-I./Rits",
+        "./bin/Debug/game",
+        "-L./bin/Debug/",
+        "-I./Rits/src",
+        "-I./Rits/vendor/spdlog/include",
         "-lrits",
         "-lglfw",
+        "-Wl,-rpath=$ORIGIN,--enable-new-dtags",
         ])
 #Windows configuration
 if platform.system() == "Windows":

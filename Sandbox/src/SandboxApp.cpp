@@ -1,4 +1,5 @@
 #include <Rits.h>
+#include <spdlog/spdlog.h>
 
 class Sandbox : public Rits::Application
 {

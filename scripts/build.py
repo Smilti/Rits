@@ -64,27 +64,37 @@ if platform.system() == "Linux":
     #Library
     subprocess.run([
         "g++",
+        "-O3",
+        "-DNDEBUG",
         "-std=c++17",
-        "-dynamiclib",
+        "-shared",
         "-g",
-        "./Rits/base.cpp",
+        "./Rits/src/Rits/Application.cpp",
+        "./Rits/src/Rits/Log.cpp",
         "-o",
-        "./bin/librits.dylib",
+        "./bin/Release/librits.so",
+        "-I./Rits/vendor/spdlog/include",
         "-lglfw",
-        "-lvulkan"
+        "-lvulkan",
+        "-fPIC",
         ])
         #Game
     subprocess.run([
         "g++",
+        "-Wall",
+        "-O3",
         "-std=c++17",
+        "-DNDEBUG",
         "-g",
-        "./Game/main.cpp",
+        "./Sandbox/src/SandboxApp.cpp",
         "-o",
-        "./bin/game",
-        "-L./bin",
-        "-I./Rits",
+        "./bin/Release/game",
+        "-L./bin/Release/",
+        "-I./Rits/src",
+        "-I./Rits/vendor/spdlog/include",
         "-lrits",
         "-lglfw",
+        "-Wl,-rpath=$ORIGIN,--enable-new-dtags",
         ])
 #Windows configuration
 if platform.system() == "Windows":

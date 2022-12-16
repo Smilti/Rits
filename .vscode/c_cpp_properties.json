@@ -4,7 +4,9 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/Rits/src"
+                "${workspaceFolder}/Rits/src",
+                "${workspaceFolder}/Rits/vendor/spdlog/include",
+                "${workspaceFolder}/Rits/vendor/spdlog/include/spdlog"
             ],
             "defines": [],
             "macFrameworkPath": [
