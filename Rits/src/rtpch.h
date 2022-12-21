@@ -1,4 +1,3 @@
-#pragma once
 
 #include <iostream>
 #include <memory>
@@ -11,3 +10,5 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+
+#include "Rits/Log.h"

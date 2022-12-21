@@ -46,19 +46,23 @@ project "Rits"
     staticruntime "On"
 
     filter "system:linux"
-        systemversion "lates"
+        systemversion "latest"
     
     filter "configurations:Debug"
-        defines "RT_DEBUG"
+        defines
+        {
+            "RT_DEBUG",
+            --"RT_ENABLE_ASSERTS"
+        }
         symbols "On"
 
     filter "configurations:Release"
         defines "RT_RELEASE"
-        symbols "On"
+        optimize "On"
 
     filter "configurations:Dist"
         defines "RT_DIST"
-        symbols "On"
+        optimize "On"
 
 project "Sandbox"
     location "Sandbox"
@@ -100,9 +104,9 @@ project "Sandbox"
 
     filter "configurations:Release"
         defines "RT_RELEASE"
-        symbols "On"
+        optimize "On"
 
     filter "configurations:Dist"
         defines "RT_DIST"
-        symbols "On"
+        optimize "On"
 

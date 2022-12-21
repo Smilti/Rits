@@ -17,6 +17,21 @@
             "cppStandard": "c++17",
             "intelliSenseMode": "macos-clang-x64",
             "configurationProvider": "ms-vscode.makefile-tools"
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/Rits/src/",
+                "${workspaceFolder}/Rits/vendor/spdlog/include",
+                "${workspaceFolder}/Rits/vendor/GLFW/include",
+                "${workspaceFolder}/Sandbox/src/"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64"
         }
     ],
     "version": 4
