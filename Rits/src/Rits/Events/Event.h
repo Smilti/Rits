@@ -1,9 +1,8 @@
 #pragma once
 
+#include "rtpch.h"
 #include "Rits/Core.h"
 
-#include <string>
-#include <functional>
 
 namespace Rits {
     // This event system is blocking

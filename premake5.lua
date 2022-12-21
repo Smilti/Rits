@@ -10,6 +10,11 @@ workspace "Rits"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Rits/vendor/GLFW/include"
+
+include "Rits/vendor/GLFW"
+
 project "Rits"
     location "Rits"
     kind "SharedLib"
@@ -27,12 +32,21 @@ project "Rits"
     includedirs
     {
         "%{prj.name}/src",
-        "%{prj.name}/vendor/spdlog/include"
+        "%{prj.name}/vendor/spdlog/include",
+        "%{IncludeDir.GLFW}"
+    }
+
+    links
+    {
+        "GLFW",
+        --"opengl32.lib"
     }
 
     cppdialect "C++17"
     staticruntime "On"
-    systemversion "latest"
+
+    filter "system:linux"
+        systemversion "lates"
     
     filter "configurations:Debug"
         defines "RT_DEBUG"
@@ -54,6 +68,9 @@ project "Sandbox"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    pchheader "rtpch.h"
+	pchsource "Rits/src/rtpch.cpp"
 
     files
     {

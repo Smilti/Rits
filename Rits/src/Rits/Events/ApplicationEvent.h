@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace Rits {
     
     class WindowResizeEvent : public Event
