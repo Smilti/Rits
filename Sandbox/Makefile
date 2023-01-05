@@ -11,10 +11,18 @@ endif
 .PHONY: clean prebuild prelink
 
 ifeq ($(config),debug)
-  RESCOMP = windres
-  TARGETDIR = ../bin/Debug-linux-x86_64/Sandbox
+  ifeq ($(origin CC), default)
+    CC = clang
+  endif
+  ifeq ($(origin CXX), default)
+    CXX = clang++
+  endif
+  ifeq ($(origin AR), default)
+    AR = ar
+  endif
+  TARGETDIR = ../bin/Debug-macosx-x86_64/Sandbox
   TARGET = $(TARGETDIR)/Sandbox
-  OBJDIR = ../bin-int/Debug-linux-x86_64/Sandbox
+  OBJDIR = ../bin-int/Debug-macosx-x86_64/Sandbox
   PCH = ../Rits/src/rtpch.h
   GCH = $(OBJDIR)/$(notdir $(PCH)).gch
   DEFINES += -DRT_DEBUG
@@ -24,9 +32,9 @@ ifeq ($(config),debug)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../bin/Debug-linux-x86_64/Rits/libRits.so
-  LDDEPS += ../bin/Debug-linux-x86_64/Rits/libRits.so
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -Wl,-rpath,'$$ORIGIN/../Rits' -m64
+  LIBS += ../bin/Debug-macosx-x86_64/Rits/libRits.dylib
+  LDDEPS += ../bin/Debug-macosx-x86_64/Rits/libRits.dylib
+  ALL_LDFLAGS += $(LDFLAGS) -Wl,-rpath,'@loader_path/../Rits' -m64
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -40,10 +48,18 @@ all: prebuild prelink $(TARGET)
 endif
 
 ifeq ($(config),release)
-  RESCOMP = windres
-  TARGETDIR = ../bin/Release-linux-x86_64/Sandbox
+  ifeq ($(origin CC), default)
+    CC = clang
+  endif
+  ifeq ($(origin CXX), default)
+    CXX = clang++
+  endif
+  ifeq ($(origin AR), default)
+    AR = ar
+  endif
+  TARGETDIR = ../bin/Release-macosx-x86_64/Sandbox
   TARGET = $(TARGETDIR)/Sandbox
-  OBJDIR = ../bin-int/Release-linux-x86_64/Sandbox
+  OBJDIR = ../bin-int/Release-macosx-x86_64/Sandbox
   PCH = ../Rits/src/rtpch.h
   GCH = $(OBJDIR)/$(notdir $(PCH)).gch
   DEFINES += -DRT_RELEASE
@@ -53,9 +69,9 @@ ifeq ($(config),release)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../bin/Release-linux-x86_64/Rits/libRits.so
-  LDDEPS += ../bin/Release-linux-x86_64/Rits/libRits.so
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -Wl,-rpath,'$$ORIGIN/../Rits' -m64 -s
+  LIBS += ../bin/Release-macosx-x86_64/Rits/libRits.dylib
+  LDDEPS += ../bin/Release-macosx-x86_64/Rits/libRits.dylib
+  ALL_LDFLAGS += $(LDFLAGS) -Wl,-rpath,'@loader_path/../Rits' -m64
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -69,10 +85,18 @@ all: prebuild prelink $(TARGET)
 endif
 
 ifeq ($(config),dist)
-  RESCOMP = windres
-  TARGETDIR = ../bin/Dist-linux-x86_64/Sandbox
+  ifeq ($(origin CC), default)
+    CC = clang
+  endif
+  ifeq ($(origin CXX), default)
+    CXX = clang++
+  endif
+  ifeq ($(origin AR), default)
+    AR = ar
+  endif
+  TARGETDIR = ../bin/Dist-macosx-x86_64/Sandbox
   TARGET = $(TARGETDIR)/Sandbox
-  OBJDIR = ../bin-int/Dist-linux-x86_64/Sandbox
+  OBJDIR = ../bin-int/Dist-macosx-x86_64/Sandbox
   PCH = ../Rits/src/rtpch.h
   GCH = $(OBJDIR)/$(notdir $(PCH)).gch
   DEFINES += -DRT_DIST
@@ -82,9 +106,9 @@ ifeq ($(config),dist)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../bin/Dist-linux-x86_64/Rits/libRits.so
-  LDDEPS += ../bin/Dist-linux-x86_64/Rits/libRits.so
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -Wl,-rpath,'$$ORIGIN/../Rits' -m64 -s
+  LIBS += ../bin/Dist-macosx-x86_64/Rits/libRits.dylib
+  LDDEPS += ../bin/Dist-macosx-x86_64/Rits/libRits.dylib
+  ALL_LDFLAGS += $(LDFLAGS) -Wl,-rpath,'@loader_path/../Rits' -m64
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef

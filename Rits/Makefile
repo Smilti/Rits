@@ -11,10 +11,18 @@ endif
 .PHONY: clean prebuild prelink
 
 ifeq ($(config),debug)
-  RESCOMP = windres
-  TARGETDIR = ../bin/Debug-linux-x86_64/Rits
-  TARGET = $(TARGETDIR)/libRits.so
-  OBJDIR = ../bin-int/Debug-linux-x86_64/Rits
+  ifeq ($(origin CC), default)
+    CC = clang
+  endif
+  ifeq ($(origin CXX), default)
+    CXX = clang++
+  endif
+  ifeq ($(origin AR), default)
+    AR = ar
+  endif
+  TARGETDIR = ../bin/Debug-macosx-x86_64/Rits
+  TARGET = $(TARGETDIR)/libRits.dylib
+  OBJDIR = ../bin-int/Debug-macosx-x86_64/Rits
   DEFINES += -DRT_DEBUG
   INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include
   FORCE_INCLUDE +=
@@ -22,9 +30,9 @@ ifeq ($(config),debug)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += vendor/GLFW/bin/Debug-linux-x86_64/GLFW/libGLFW.a
-  LDDEPS += vendor/GLFW/bin/Debug-linux-x86_64/GLFW/libGLFW.a
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libRits.so
+  LIBS += vendor/GLFW/bin/Debug-macosx-x86_64/GLFW/libGLFW.a
+  LDDEPS += vendor/GLFW/bin/Debug-macosx-x86_64/GLFW/libGLFW.a
+  ALL_LDFLAGS += $(LDFLAGS) -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -38,10 +46,18 @@ all: prebuild prelink $(TARGET)
 endif
 
 ifeq ($(config),release)
-  RESCOMP = windres
-  TARGETDIR = ../bin/Release-linux-x86_64/Rits
-  TARGET = $(TARGETDIR)/libRits.so
-  OBJDIR = ../bin-int/Release-linux-x86_64/Rits
+  ifeq ($(origin CC), default)
+    CC = clang
+  endif
+  ifeq ($(origin CXX), default)
+    CXX = clang++
+  endif
+  ifeq ($(origin AR), default)
+    AR = ar
+  endif
+  TARGETDIR = ../bin/Release-macosx-x86_64/Rits
+  TARGET = $(TARGETDIR)/libRits.dylib
+  OBJDIR = ../bin-int/Release-macosx-x86_64/Rits
   DEFINES += -DRT_RELEASE
   INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include
   FORCE_INCLUDE +=
@@ -49,9 +65,9 @@ ifeq ($(config),release)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += vendor/GLFW/bin/Release-linux-x86_64/GLFW/libGLFW.a
-  LDDEPS += vendor/GLFW/bin/Release-linux-x86_64/GLFW/libGLFW.a
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libRits.so -s
+  LIBS += vendor/GLFW/bin/Release-macosx-x86_64/GLFW/libGLFW.a
+  LDDEPS += vendor/GLFW/bin/Release-macosx-x86_64/GLFW/libGLFW.a
+  ALL_LDFLAGS += $(LDFLAGS) -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -65,10 +81,18 @@ all: prebuild prelink $(TARGET)
 endif
 
 ifeq ($(config),dist)
-  RESCOMP = windres
-  TARGETDIR = ../bin/Dist-linux-x86_64/Rits
-  TARGET = $(TARGETDIR)/libRits.so
-  OBJDIR = ../bin-int/Dist-linux-x86_64/Rits
+  ifeq ($(origin CC), default)
+    CC = clang
+  endif
+  ifeq ($(origin CXX), default)
+    CXX = clang++
+  endif
+  ifeq ($(origin AR), default)
+    AR = ar
+  endif
+  TARGETDIR = ../bin/Dist-macosx-x86_64/Rits
+  TARGET = $(TARGETDIR)/libRits.dylib
+  OBJDIR = ../bin-int/Dist-macosx-x86_64/Rits
   DEFINES += -DRT_DIST
   INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include
   FORCE_INCLUDE +=
@@ -76,9 +100,9 @@ ifeq ($(config),dist)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a
-  LDDEPS += vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libRits.so -s
+  LIBS += vendor/GLFW/bin/Dist-macosx-x86_64/GLFW/libGLFW.a
+  LDDEPS += vendor/GLFW/bin/Dist-macosx-x86_64/GLFW/libGLFW.a
+  ALL_LDFLAGS += $(LDFLAGS) -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef

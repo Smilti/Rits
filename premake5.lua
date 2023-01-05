@@ -96,7 +96,8 @@ project "Sandbox"
 
     cppdialect "C++17"
     staticruntime "On"
-    systemversion "latest"
+    filter "system:windows"
+        systemversion "latest"
 
     filter "configurations:Debug"
         defines "RT_DEBUG"
