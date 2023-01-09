@@ -45,8 +45,18 @@ project "Rits"
     cppdialect "C++17"
     staticruntime "On"
 
+    filter "system:macosx"
+        links
+        {
+            "OpenGL.framework"
+        }
+
     filter "system:linux"
         systemversion "latest"
+        links
+        {
+            "OpenGL"
+        }
     
     filter "configurations:Debug"
         defines

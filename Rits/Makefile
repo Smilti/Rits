@@ -30,9 +30,9 @@ ifeq ($(config),debug)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += vendor/GLFW/bin/Debug-macosx-x86_64/GLFW/libGLFW.a
-  LDDEPS += vendor/GLFW/bin/Debug-macosx-x86_64/GLFW/libGLFW.a
-  ALL_LDFLAGS += $(LDFLAGS) -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
+  LIBS += vendor/GLFW/bin/Debug-macosx-x86_64/GLFW/libGLFW.dylib -framework OpenGL
+  LDDEPS += vendor/GLFW/bin/Debug-macosx-x86_64/GLFW/libGLFW.dylib
+  ALL_LDFLAGS += $(LDFLAGS) -Wl,-rpath,'@loader_path/../../../Rits/vendor/GLFW/bin/Debug-macosx-x86_64/GLFW' -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -65,9 +65,9 @@ ifeq ($(config),release)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += vendor/GLFW/bin/Release-macosx-x86_64/GLFW/libGLFW.a
-  LDDEPS += vendor/GLFW/bin/Release-macosx-x86_64/GLFW/libGLFW.a
-  ALL_LDFLAGS += $(LDFLAGS) -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
+  LIBS += vendor/GLFW/bin/Release-macosx-x86_64/GLFW/libGLFW.dylib -framework OpenGL
+  LDDEPS += vendor/GLFW/bin/Release-macosx-x86_64/GLFW/libGLFW.dylib
+  ALL_LDFLAGS += $(LDFLAGS) -Wl,-rpath,'@loader_path/../../../Rits/vendor/GLFW/bin/Release-macosx-x86_64/GLFW' -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -100,9 +100,9 @@ ifeq ($(config),dist)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += vendor/GLFW/bin/Dist-macosx-x86_64/GLFW/libGLFW.a
-  LDDEPS += vendor/GLFW/bin/Dist-macosx-x86_64/GLFW/libGLFW.a
-  ALL_LDFLAGS += $(LDFLAGS) -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
+  LIBS += vendor/GLFW/bin/Dist-macosx-x86_64/GLFW/libGLFW.dylib -framework OpenGL
+  LDDEPS += vendor/GLFW/bin/Dist-macosx-x86_64/GLFW/libGLFW.dylib
+  ALL_LDFLAGS += $(LDFLAGS) -Wl,-rpath,'@loader_path/../../../Rits/vendor/GLFW/bin/Dist-macosx-x86_64/GLFW' -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -118,6 +118,8 @@ endif
 OBJECTS := \
 	$(OBJDIR)/LinuxWindow.o \
 	$(OBJDIR)/Application.o \
+	$(OBJDIR)/Layer.o \
+	$(OBJDIR)/LayerStack.o \
 	$(OBJDIR)/Log.o \
 	$(OBJDIR)/rtpch.o \
 
@@ -182,6 +184,12 @@ $(OBJDIR)/LinuxWindow.o: src/Platform/Linux/LinuxWindow.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Application.o: src/Rits/Application.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Layer.o: src/Rits/Layer.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/LayerStack.o: src/Rits/LayerStack.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Log.o: src/Rits/Log.cpp
