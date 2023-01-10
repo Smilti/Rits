@@ -64,14 +64,17 @@ project "Rits"
             "RT_DEBUG",
             --"RT_ENABLE_ASSERTS"
         }
+        buildoptions "-MD"
         symbols "On"
 
     filter "configurations:Release"
         defines "RT_RELEASE"
+        buildoptions "-MD"
         optimize "On"
 
     filter "configurations:Dist"
         defines "RT_DIST"
+        buildoptions "-MD"
         optimize "On"
 
 project "Sandbox"
