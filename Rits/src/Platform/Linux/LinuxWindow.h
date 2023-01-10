@@ -4,6 +4,7 @@
 
 #include <GLFW/glfw3.h>
 
+
 namespace Rits {
 
     class LinuxWindow : public Window

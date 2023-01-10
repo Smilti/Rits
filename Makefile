@@ -12,21 +12,24 @@ endif
 
 ifeq ($(config),debug)
   GLFW_config = debug
+  Glad_config = debug
   Rits_config = debug
   Sandbox_config = debug
 endif
 ifeq ($(config),release)
   GLFW_config = release
+  Glad_config = release
   Rits_config = release
   Sandbox_config = release
 endif
 ifeq ($(config),dist)
   GLFW_config = dist
+  Glad_config = dist
   Rits_config = dist
   Sandbox_config = dist
 endif
 
-PROJECTS := GLFW Rits Sandbox
+PROJECTS := GLFW Glad Rits Sandbox
 
 .PHONY: all clean help $(PROJECTS) 
 
@@ -38,7 +41,13 @@ ifneq (,$(GLFW_config))
 	@${MAKE} --no-print-directory -C Rits/vendor/GLFW -f Makefile config=$(GLFW_config)
 endif
 
-Rits: GLFW
+Glad:
+ifneq (,$(Glad_config))
+	@echo "==== Building Glad ($(Glad_config)) ===="
+	@${MAKE} --no-print-directory -C Rits/vendor/Glad -f Makefile config=$(Glad_config)
+endif
+
+Rits: GLFW Glad
 ifneq (,$(Rits_config))
 	@echo "==== Building Rits ($(Rits_config)) ===="
 	@${MAKE} --no-print-directory -C Rits -f Makefile config=$(Rits_config)
@@ -52,6 +61,7 @@ endif
 
 clean:
 	@${MAKE} --no-print-directory -C Rits/vendor/GLFW -f Makefile clean
+	@${MAKE} --no-print-directory -C Rits/vendor/Glad -f Makefile clean
 	@${MAKE} --no-print-directory -C Rits -f Makefile clean
 	@${MAKE} --no-print-directory -C Sandbox -f Makefile clean
 
@@ -67,6 +77,7 @@ help:
 	@echo "   all (default)"
 	@echo "   clean"
 	@echo "   GLFW"
+	@echo "   Glad"
 	@echo "   Rits"
 	@echo "   Sandbox"
 	@echo ""

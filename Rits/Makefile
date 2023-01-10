@@ -23,16 +23,16 @@ ifeq ($(config),debug)
   TARGETDIR = ../bin/Debug-macosx-x86_64/Rits
   TARGET = $(TARGETDIR)/libRits.dylib
   OBJDIR = ../bin-int/Debug-macosx-x86_64/Rits
-  DEFINES += -DRT_DEBUG
-  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include
+  DEFINES += -DGLFW_INCLUDE_NONE -DRT_DEBUG -DRT_ENABLE_ASSERTS
+  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -MD
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17 -MD
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += vendor/GLFW/bin/Debug-macosx-x86_64/GLFW/libGLFW.a -framework OpenGL
-  LDDEPS += vendor/GLFW/bin/Debug-macosx-x86_64/GLFW/libGLFW.a
-  ALL_LDFLAGS += $(LDFLAGS) -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
+  LIBS += vendor/GLFW/bin/Debug-macosx-x86_64/GLFW/libGLFW.dylib vendor/Glad/bin/Debug-macosx-x86_64/Glad/libGlad.a -framework OpenGL
+  LDDEPS += vendor/GLFW/bin/Debug-macosx-x86_64/GLFW/libGLFW.dylib vendor/Glad/bin/Debug-macosx-x86_64/Glad/libGlad.a
+  ALL_LDFLAGS += $(LDFLAGS) -Wl,-rpath,'@loader_path/../../../Rits/vendor/GLFW/bin/Debug-macosx-x86_64/GLFW' -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -58,16 +58,16 @@ ifeq ($(config),release)
   TARGETDIR = ../bin/Release-macosx-x86_64/Rits
   TARGET = $(TARGETDIR)/libRits.dylib
   OBJDIR = ../bin-int/Release-macosx-x86_64/Rits
-  DEFINES += -DRT_RELEASE
-  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include
+  DEFINES += -DGLFW_INCLUDE_NONE -DRT_RELEASE
+  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -MD
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17 -MD
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += vendor/GLFW/bin/Release-macosx-x86_64/GLFW/libGLFW.a -framework OpenGL
-  LDDEPS += vendor/GLFW/bin/Release-macosx-x86_64/GLFW/libGLFW.a
-  ALL_LDFLAGS += $(LDFLAGS) -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
+  LIBS += vendor/GLFW/bin/Release-macosx-x86_64/GLFW/libGLFW.dylib vendor/Glad/bin/Release-macosx-x86_64/Glad/libGlad.a -framework OpenGL
+  LDDEPS += vendor/GLFW/bin/Release-macosx-x86_64/GLFW/libGLFW.dylib vendor/Glad/bin/Release-macosx-x86_64/Glad/libGlad.a
+  ALL_LDFLAGS += $(LDFLAGS) -Wl,-rpath,'@loader_path/../../../Rits/vendor/GLFW/bin/Release-macosx-x86_64/GLFW' -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -93,16 +93,16 @@ ifeq ($(config),dist)
   TARGETDIR = ../bin/Dist-macosx-x86_64/Rits
   TARGET = $(TARGETDIR)/libRits.dylib
   OBJDIR = ../bin-int/Dist-macosx-x86_64/Rits
-  DEFINES += -DRT_DIST
-  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include
+  DEFINES += -DGLFW_INCLUDE_NONE -DRT_DIST
+  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -MD
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17 -MD
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += vendor/GLFW/bin/Dist-macosx-x86_64/GLFW/libGLFW.a -framework OpenGL
-  LDDEPS += vendor/GLFW/bin/Dist-macosx-x86_64/GLFW/libGLFW.a
-  ALL_LDFLAGS += $(LDFLAGS) -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
+  LIBS += vendor/GLFW/bin/Dist-macosx-x86_64/GLFW/libGLFW.dylib vendor/Glad/bin/Dist-macosx-x86_64/Glad/libGlad.a -framework OpenGL
+  LDDEPS += vendor/GLFW/bin/Dist-macosx-x86_64/GLFW/libGLFW.dylib vendor/Glad/bin/Dist-macosx-x86_64/Glad/libGlad.a
+  ALL_LDFLAGS += $(LDFLAGS) -Wl,-rpath,'@loader_path/../../../Rits/vendor/GLFW/bin/Dist-macosx-x86_64/GLFW' -m64 -dynamiclib -Wl,-install_name,@rpath/libRits.dylib
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef

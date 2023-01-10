@@ -12,8 +12,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "Rits/vendor/GLFW/include"
+IncludeDir["Glad"] = "Rits/vendor/Glad/include"
 
 include "Rits/vendor/GLFW"
+include "Rits/vendor/Glad"
 
 project "Rits"
     location "Rits"
@@ -33,17 +35,24 @@ project "Rits"
     {
         "%{prj.name}/src",
         "%{prj.name}/vendor/spdlog/include",
-        "%{IncludeDir.GLFW}"
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.Glad}"
     }
 
     links
     {
         "GLFW",
+        "Glad", 
         --"opengl32.lib"
     }
 
     cppdialect "C++17"
     staticruntime "On"
+
+    defines
+    {
+        "GLFW_INCLUDE_NONE"
+    }
 
     filter "system:macosx"
         links
@@ -62,19 +71,16 @@ project "Rits"
         defines
         {
             "RT_DEBUG",
-            --"RT_ENABLE_ASSERTS"
+            "RT_ENABLE_ASSERTS"
         }
-        buildoptions "-MD"
         symbols "On"
 
     filter "configurations:Release"
         defines "RT_RELEASE"
-        buildoptions "-MD"
         optimize "On"
 
     filter "configurations:Dist"
         defines "RT_DIST"
-        buildoptions "-MD"
         optimize "On"
 
 project "Sandbox"
